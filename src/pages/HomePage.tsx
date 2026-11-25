@@ -6,6 +6,7 @@ import {
   RefreshCw,
   ShieldCheck,
   Sparkles,
+  Tag,
   Truck,
   Zap,
 } from 'lucide-react';
@@ -55,8 +56,75 @@ function useCountdown(hoursFromNow: number) {
 
 export function HomePage() {
   const { lang, isRtl, l, t } = useLocale();
-  const { recentlyViewedIds } = useStore();
+  const { recentlyViewedIds, showToast } = useStore();
   const countdown = useCountdown(STORE_CONFIG.flashDealsDurationHours);
+  const [adSpotlightIdx, setAdSpotlightIdx] = useState(0);
+
+  const commercialDiscountAds = useMemo(
+    () => [
+      {
+        id: 'ad-luxury-30',
+        badge: { ar: 'خصم 30%', en: '30% OFF' },
+        tone: 'red' as const,
+        text: {
+          ar: 'عبايات البشت والتطريز اليدوي الفاخر — عرض محدود',
+          en: 'Luxury Gold-Embroidered Bisht Abayas — Limited Offer',
+        },
+        link: '/category/luxury-abayas',
+      },
+      {
+        id: 'ad-code-15',
+        badge: { ar: 'كود LAYANA15', en: 'CODE: LAYANA15' },
+        tone: 'gold' as const,
+        text: {
+          ar: 'خصم إضافي 15% على كامل سلتك عند الدفع (تجريبي)',
+          en: 'Extra 15% Off Storewide at Checkout (Demo Promo)',
+        },
+        promoCode: 'LAYANA15',
+        link: '/sale',
+      },
+      {
+        id: 'ad-eid-25',
+        badge: { ar: 'خصم 25%', en: '25% OFF' },
+        tone: 'red' as const,
+        text: {
+          ar: 'تشكيلة العيد والمناسبات مع طرحة حريرية مجانية',
+          en: 'Eid & Evening Couture + Free Matching Silk Shayla',
+        },
+        link: '/category/occasion-abayas',
+      },
+      {
+        id: 'ad-linen-259',
+        badge: { ar: 'من 259 ر.س', en: 'FROM SAR 259' },
+        tone: 'gold' as const,
+        text: {
+          ar: 'عروض فلاش على عبايات الكتان الطبيعي البارد للدوام',
+          en: 'Flash Deals on Breathable Natural Desert Linen Abayas',
+        },
+        link: '/category/linen-abayas',
+      },
+      {
+        id: 'ad-free-ship',
+        badge: { ar: 'شحن مجاني', en: 'FREE KSA SHIPPING' },
+        tone: 'gold' as const,
+        text: {
+          ar: 'توصيل سريع مجاني للرياض وجدة والدمام فوق 399 ر.س',
+          en: 'Express Free Delivery Across KSA on Orders Over SAR 399',
+        },
+        link: '/flash-deals',
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setAdSpotlightIdx((prev) => (prev + 1) % commercialDiscountAds.length);
+    }, 3000);
+    return () => window.clearInterval(interval);
+  }, [commercialDiscountAds.length]);
+
+  const activeSpotlightAd = commercialDiscountAds[adSpotlightIdx];
 
   const flashProducts = useMemo(() => PRODUCTS.filter((p) => p.isFlashDeal), []);
   const recommendedProducts = useMemo(() => PRODUCTS.filter((p) => p.isRecommended).slice(0, 12), []);
@@ -203,13 +271,13 @@ export function HomePage() {
                             priority={idx === 0}
                             className="w-full h-full object-cover object-[center_12%]"
                           />
-                          {/* Subtle Floating Editorial Piece Tag */}
+                          {/* Subtle Floating Editorial Piece Tag harmonized with burgundy/gold theme */}
                           <Link
                             to={slide.link}
-                            className="absolute bottom-4 end-4 px-3.5 py-2 rounded-lg bg-white/94 backdrop-blur-sm border border-[#EAE5DF] shadow-md flex items-center gap-2 text-xs font-bold text-[#202020] hover:border-[#581C32] transition-colors"
+                            className="absolute bottom-4 end-4 px-3.5 py-2 rounded-lg bg-[#3D1023]/88 backdrop-blur-md border border-[#C5A572]/45 shadow-md flex items-center gap-2 text-xs font-bold text-[#F8F4ED] hover:bg-[#581C32] hover:border-[#C5A572] transition-colors"
                           >
                             <span className="tabular-nums">{l(slide.featuredPiece)}</span>
-                            <ArrowIcon className="w-3.5 h-3.5 text-[#581C32]" />
+                            <ArrowIcon className="w-3.5 h-3.5 text-[#C5A572]" />
                           </Link>
                         </div>
                       </div>
@@ -286,32 +354,96 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Integrated Single-Row Saudi Shopping Promise Strip */}
-          <div className="mt-4 pt-3.5 border-t border-[#EAE5DF] grid grid-cols-4 divide-x divide-[#EAE5DF] rtl:divide-x-reverse text-xs">
-            <div className="flex items-center justify-center gap-2 px-3 text-[#202020] font-semibold">
-              <Truck className="w-4 h-4 text-[#581C32] shrink-0" />
-              <span className="truncate">
-                {lang === 'ar' ? 'شحن مجاني فوق 399 ر.س داخل المملكة' : 'Free KSA Shipping Over SAR 399'}
-              </span>
+          {/* Commercial Ad-Style Animated Discount Strip (replaces static promise strip in exact same footprint) */}
+          <div
+            aria-label={lang === 'ar' ? 'شريط العروض والخصومات المتحرك' : 'Animated Discount Offers'}
+            className="layana-ad-banner mt-4 relative h-[52px] rounded-xl overflow-hidden bg-gradient-to-r from-[#2E0B1A] via-[#581C32] to-[#2E0B1A] border border-[#C5A572]/40 shadow-[0_6px_20px_rgba(61,16,35,0.12)] flex items-center"
+          >
+            {/* Subtle commercial gold shimmer sweep */}
+            <div
+              aria-hidden="true"
+              className="layana-ad-sheen pointer-events-none absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-[#C5A572]/18 to-transparent skew-x-[-20deg]"
+            />
+
+            {/* Start Commercial Label */}
+            <Link
+              to="/sale"
+              className="relative z-10 h-full px-4 bg-[#C5A572] text-[#202020] font-extrabold text-xs inline-flex items-center gap-1.5 shrink-0 hover:bg-[#d3b482] transition-colors whitespace-nowrap"
+            >
+              <Tag className="w-3.5 h-3.5 shrink-0" />
+              <span>{lang === 'ar' ? 'عروض ليانا' : 'LIVE DEALS'}</span>
+            </Link>
+
+            {/* Continuous Gliding Commercial Discount Track (pauses on hover) */}
+            <div className="relative flex-1 overflow-hidden h-full flex items-center" dir="ltr">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 left-0 w-7 bg-gradient-to-r from-[#310C1B] to-transparent z-10"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 w-7 bg-gradient-to-l from-[#310C1B] to-transparent z-10"
+              />
+              <div className={isRtl ? 'layana-ad-track-rtl' : 'layana-ad-track-ltr'}>
+                {[0, 1].map((dupIdx) => (
+                  <div
+                    key={dupIdx}
+                    aria-hidden={dupIdx === 1}
+                    dir={isRtl ? 'rtl' : 'ltr'}
+                    className="flex items-center gap-6 px-4 shrink-0"
+                  >
+                    {commercialDiscountAds.map((ad) => (
+                      <Link
+                        key={`${dupIdx}-${ad.id}`}
+                        to={ad.link}
+                        onClick={() => {
+                          if (ad.promoCode) {
+                            navigator.clipboard?.writeText(ad.promoCode).catch(() => {});
+                            showToast(
+                              lang === 'ar'
+                                ? `تم نسخ كود الخصم التجريبي ${ad.promoCode} — خصم 15%`
+                                : `Copied demo promo code ${ad.promoCode} — 15% off`,
+                              'success'
+                            );
+                          }
+                        }}
+                        className="inline-flex items-center gap-2 text-xs text-[#F8F4ED] hover:text-[#C5A572] transition-colors whitespace-nowrap group"
+                      >
+                        <span
+                          className={`px-2 py-0.5 rounded font-extrabold text-[11px] tabular-nums tracking-tight ${
+                            ad.tone === 'red'
+                              ? 'bg-[#D92D39] text-white'
+                              : 'bg-[#C5A572] text-[#202020]'
+                          }`}
+                        >
+                          {l(ad.badge)}
+                        </span>
+                        <span className="font-semibold">{l(ad.text)}</span>
+                        <span className="text-[#C5A572]/50 ps-2" aria-hidden="true">
+                          ✦
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center justify-center gap-2 px-3 text-[#202020] font-semibold">
-              <ShieldCheck className="w-4 h-4 text-[#581C32] shrink-0" />
-              <span className="truncate">
-                {lang === 'ar' ? 'الأسعار شاملة ضريبة القيمة المضافة 15%' : 'All Prices Include 15% Saudi VAT'}
+
+            {/* End Live-Cycling Spotlight Offer CTA */}
+            <Link
+              to={activeSpotlightAd.link}
+              className="relative z-10 hidden xl:inline-flex items-center gap-2 h-full px-4 bg-[#2A0A17]/95 border-s border-[#C5A572]/30 text-xs font-bold text-[#F8F4ED] hover:text-[#C5A572] transition-colors shrink-0 min-w-[200px] justify-center overflow-hidden"
+            >
+              <span
+                key={activeSpotlightAd.id}
+                className="layana-ad-spotlight inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <Zap className="w-3.5 h-3.5 fill-[#C5A572] text-[#C5A572] shrink-0" />
+                <span className="text-[#C5A572] tabular-nums">{l(activeSpotlightAd.badge)}</span>
+                <span className="text-white/90">· {t.shopNow}</span>
+                <ArrowIcon className="w-3.5 h-3.5 text-[#C5A572] shrink-0" />
               </span>
-            </div>
-            <div className="flex items-center justify-center gap-2 px-3 text-[#202020] font-semibold">
-              <Sparkles className="w-4 h-4 text-[#581C32] shrink-0" />
-              <span className="truncate">
-                {lang === 'ar' ? 'قسّطي على 4 دفعات عبر تابي وتمارا' : '4 Interest-Free Tabby & Tamara'}
-              </span>
-            </div>
-            <div className="flex items-center justify-center gap-2 px-3 text-[#202020] font-semibold">
-              <RefreshCw className="w-4 h-4 text-[#581C32] shrink-0" />
-              <span className="truncate">
-                {lang === 'ar' ? 'استبدال واسترجاع مرن خلال 14 يوماً' : '14-Day Easy Exchange & Returns'}
-              </span>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -393,50 +525,79 @@ export function HomePage() {
             </Swiper>
           </div>
 
-          {/* Native Android App 2-Column Mini Promo Shortcuts */}
-          <div className="px-3 mt-3 grid grid-cols-2 gap-2.5">
-            <Link
-              to="/flash-deals"
-              className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-[#FAF5EC] border border-[#EAE5DF] active:scale-[0.98] transition-transform"
+          {/* Mobile Commercial Ad-Style Animated Discount Strip (replaces static mini promo duo) */}
+          <div className="px-3 mt-2.5">
+            <div
+              aria-label={lang === 'ar' ? 'شريط العروض والخصومات المتحرك' : 'Animated Discount Offers'}
+              className="layana-ad-banner relative h-[46px] rounded-xl overflow-hidden bg-gradient-to-r from-[#2E0B1A] via-[#581C32] to-[#2E0B1A] border border-[#C5A572]/40 shadow-[0_4px_14px_rgba(61,16,35,0.12)] flex items-center"
             >
-              <div className="min-w-0">
-                <p className="text-[10px] font-bold text-[#D92D39] flex items-center gap-1">
-                  <Zap className="w-3 h-3 fill-[#D92D39] shrink-0" />
-                  <span className="truncate">{lang === 'ar' ? 'حتى 30%' : 'Up to 30%'}</span>
-                </p>
-                <p className="text-xs font-extrabold text-[#202020] truncate mt-0.5">
-                  {lang === 'ar' ? 'عروض فلاش' : 'Flash Deals'}
-                </p>
-              </div>
-              <div className="w-10 h-11 rounded-lg overflow-hidden bg-white border border-[#EAE5DF] shrink-0">
-                <SmartImage
-                  src={PROMO_BANNERS[0].image}
-                  alt={t.sections.flashDeals}
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </Link>
+              <div
+                aria-hidden="true"
+                className="layana-ad-sheen pointer-events-none absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-[#C5A572]/20 to-transparent skew-x-[-20deg]"
+              />
 
-            <Link
-              to="/category/occasion-abayas"
-              className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-[#3D1023] text-white active:scale-[0.98] transition-transform"
-            >
-              <div className="min-w-0">
-                <p className="text-[10px] font-bold text-[#C5A572] truncate">
-                  {lang === 'ar' ? 'جديد العيد' : 'Eid Edit'}
-                </p>
-                <p className="text-xs font-extrabold truncate mt-0.5">
-                  {lang === 'ar' ? 'عبايات مناسبات' : 'Occasion Wear'}
-                </p>
-              </div>
-              <div className="w-10 h-11 rounded-lg overflow-hidden bg-[#2A0B18] shrink-0">
-                <SmartImage
-                  src={PROMO_BANNERS[2].image}
-                  alt={lang === 'ar' ? 'عبايات مناسبات' : 'Occasion Wear'}
-                  className="w-full h-full object-cover object-top"
+              <Link
+                to="/sale"
+                className="relative z-10 h-full px-3 bg-[#C5A572] text-[#202020] font-extrabold text-[11px] inline-flex items-center gap-1 shrink-0 whitespace-nowrap"
+              >
+                <Zap className="w-3 h-3 fill-[#202020] shrink-0" />
+                <span>{lang === 'ar' ? 'عروض' : 'DEALS'}</span>
+              </Link>
+
+              <div className="relative flex-1 overflow-hidden h-full flex items-center" dir="ltr">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 left-0 w-5 bg-gradient-to-r from-[#310C1B] to-transparent z-10"
                 />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 right-0 w-5 bg-gradient-to-l from-[#310C1B] to-transparent z-10"
+                />
+                <div className={isRtl ? 'layana-ad-track-rtl' : 'layana-ad-track-ltr'}>
+                  {[0, 1].map((dupIdx) => (
+                    <div
+                      key={dupIdx}
+                      aria-hidden={dupIdx === 1}
+                      dir={isRtl ? 'rtl' : 'ltr'}
+                      className="flex items-center gap-4 px-3 shrink-0"
+                    >
+                      {commercialDiscountAds.map((ad) => (
+                        <Link
+                          key={`m-${dupIdx}-${ad.id}`}
+                          to={ad.link}
+                          onClick={() => {
+                            if (ad.promoCode) {
+                              navigator.clipboard?.writeText(ad.promoCode).catch(() => {});
+                              showToast(
+                                lang === 'ar'
+                                  ? `تم نسخ كود الخصم التجريبي ${ad.promoCode} — خصم 15%`
+                                  : `Copied demo promo code ${ad.promoCode} — 15% off`,
+                                'success'
+                              );
+                            }
+                          }}
+                          className="inline-flex items-center gap-1.5 text-[11px] text-[#F8F4ED] whitespace-nowrap"
+                        >
+                          <span
+                            className={`px-1.5 py-0.5 rounded font-extrabold text-[10px] tabular-nums ${
+                              ad.tone === 'red'
+                                ? 'bg-[#D92D39] text-white'
+                                : 'bg-[#C5A572] text-[#202020]'
+                            }`}
+                          >
+                            {l(ad.badge)}
+                          </span>
+                          <span className="font-semibold">{l(ad.text)}</span>
+                          <span className="text-[#C5A572]/50 ps-1" aria-hidden="true">
+                            ✦
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </section>

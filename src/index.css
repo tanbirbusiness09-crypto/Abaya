@@ -143,22 +143,23 @@
 
 .layana-hero-swiper .swiper-button-prev,
 .layana-hero-swiper .swiper-button-next {
-  color: #202020;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #EAE5DF;
+  color: #F8F4ED;
+  background: rgba(61, 16, 35, 0.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 165, 114, 0.55);
   width: 36px;
   height: 36px;
   border-radius: 9999px;
-  box-shadow: 0 4px 12px rgba(32, 32, 32, 0.08);
-  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+  box-shadow: 0 6px 18px rgba(32, 10, 20, 0.22);
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 
 .layana-hero-swiper .swiper-button-prev:hover,
 .layana-hero-swiper .swiper-button-next:hover {
-  background: #581C32;
-  color: #FFFFFF;
-  border-color: #581C32;
-  transform: scale(1.04);
+  background: #C5A572;
+  color: #202020;
+  border-color: #C5A572;
+  transform: scale(1.06);
 }
 
 .layana-hero-swiper .swiper-button-prev::after,
@@ -167,11 +168,91 @@
   font-weight: 700;
 }
 
+.layana-hero-swiper .swiper-button-prev svg,
+.layana-hero-swiper .swiper-button-next svg {
+  width: 14px;
+  height: 14px;
+}
+
 @media (max-width: 767px) {
   .layana-hero-swiper .swiper-button-prev,
   .layana-hero-swiper .swiper-button-next {
     display: none;
   }
+}
+
+/* Commercial Discount Advertisement Banner Animations */
+@keyframes layana-ad-marquee-ltr {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes layana-ad-marquee-rtl {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes layana-ad-spotlight-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.97);
+  }
+  10% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale(0.97);
+  }
+}
+
+@keyframes layana-ad-sheen {
+  0% {
+    transform: translate3d(-120%, 0, 0);
+  }
+  100% {
+    transform: translate3d(220%, 0, 0);
+  }
+}
+
+.layana-ad-track-ltr {
+  display: flex;
+  width: max-content;
+  animation: layana-ad-marquee-ltr 28s linear infinite;
+  will-change: transform;
+}
+
+.layana-ad-track-rtl {
+  display: flex;
+  width: max-content;
+  animation: layana-ad-marquee-rtl 28s linear infinite;
+  will-change: transform;
+}
+
+.layana-ad-banner:hover .layana-ad-track-ltr,
+.layana-ad-banner:hover .layana-ad-track-rtl {
+  animation-play-state: paused;
+}
+
+.layana-ad-spotlight {
+  animation: layana-ad-spotlight-enter 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.layana-ad-sheen {
+  animation: layana-ad-sheen 4.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
