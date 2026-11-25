@@ -1,0 +1,16 @@
+export const IMAGES = {
+  heroBurgundy: '/src/assets/images/hero_timeless_burgundy_1795572654253.jpg',
+  heroLinen: '/src/assets/images/hero_everyday_linen_1795572656021.jpg',
+  heroEvening: '/src/assets/images/hero_evening_occasion_1795572655332.jpg',
+  classicBlack: '/src/assets/images/abaya_classic_black_1795572654741.jpg',
+  blackGoldEmbroidery: '/src/assets/images/abaya_black_gold_embroidery_1795572654697.jpg',
+  burgundyVelvet: '/src/assets/images/abaya_burgundy_velvet_1795572654583.jpg',
+  sandBeigeLinen: '/src/assets/images/abaya_sand_beige_linen_1795572656165.jpg',
+  espressoBrown: '/src/assets/images/abaya_espresso_brown_1795572655621.jpg',
+  oliveSage: '/src/assets/images/abaya_olive_sage_1795572655116.jpg',
+  navyEvening: '/src/assets/images/abaya_navy_evening_1795572657417.jpg',
+  pearlCreamEid: '/src/assets/images/abaya_pearl_cream_eid_1795572655440.jpg',
+  charcoalGreyOffice: '/src/assets/images/abaya_charcoal_grey_office_1795572654397.jpg',
+  hijabShayla: '/src/assets/images/hijab_shayla_collection_1795572655477.jpg',
+  prayerSetAccessories: '/src/assets/images/prayer_set_accessories_1795572654512.jpg',
+} as const;

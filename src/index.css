@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+@theme {
+  --color-burgundy: #581C32;
+  --color-burgundy-dark: #3D1023;
+  --color-ivory: #F8F4ED;
+  --color-gold: #C5A572;
+  --color-ink: #202020;
+  --color-muted: #777777;
+  --color-border-soft: #EAE5DF;
+  --color-success: #168653;
+  --color-discount: #D92D39;
+  --font-arabic: "Tajawal", system-ui, -apple-system, sans-serif;
+  --font-latin: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-editorial: "Cormorant Garamond", Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: #F8F4ED;
+    color: #202020;
+    overflow-x: clip;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  html[lang="ar"] body {
+    font-family: var(--font-arabic);
+  }
+
+  html[lang="en"] body {
+    font-family: var(--font-latin);
+  }
+
+  .font-editorial {
+    font-family: var(--font-editorial);
+  }
+
+  html[lang="ar"] .font-editorial {
+    font-family: var(--font-arabic);
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    outline-color: #581C32;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Subtle horizontal scroller without harsh scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area bottom padding for mobile native app bar */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Swiper custom pagination polish */
+.layana-hero-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+  transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease;
+  border-radius: 9999px;
+}
+
+.layana-hero-swiper .swiper-pagination-bullet-active {
+  width: 24px;
+  background: #C5A572;
+}
+
+.layana-hero-swiper .swiper-button-prev,
+.layana-hero-swiper .swiper-button-next {
+  color: #202020;
+  background: rgba(255, 255, 255, 0.92);
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.layana-hero-swiper .swiper-button-prev:hover,
+.layana-hero-swiper .swiper-button-next:hover {
+  background: #FFFFFF;
+  transform: scale(1.04);
+}
+
+.layana-hero-swiper .swiper-button-prev::after,
+.layana-hero-swiper .swiper-button-next::after {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .layana-hero-swiper .swiper-button-prev,
+  .layana-hero-swiper .swiper-button-next {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

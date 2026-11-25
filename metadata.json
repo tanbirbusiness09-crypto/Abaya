@@ -1,0 +1,6 @@
+{
+  "name": "LAYANA | ليانا — Premium Saudi Abaya Store",
+  "description": "LAYANA (ليانا) is a luxury Saudi Arabian e-commerce destination for contemporary women's abayas, luxury embroidered bishts, hijabs, shaylas, and modest fashion with nationwide delivery across Saudi Arabia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
