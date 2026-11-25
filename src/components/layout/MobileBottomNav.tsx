@@ -44,9 +44,9 @@ export function MobileBottomNav() {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-[#EAE5DF] shadow-[0_-2px_12px_rgba(0,0,0,0.05)] pb-safe"
+      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#EAE5DF] shadow-[0_-4px_16px_rgba(32,32,32,0.06)] pb-safe"
     >
-      <div className="grid grid-cols-5 h-14">
+      <div className="grid grid-cols-5 h-[58px] px-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = item.match(pathname);
@@ -54,22 +54,23 @@ export function MobileBottomNav() {
             <Link
               key={item.path}
               to={item.path}
-              className={`relative flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
-                active ? 'text-[#581C32] font-bold' : 'text-[#777777]'
+              className={`relative flex flex-col items-center justify-center gap-0.5 text-[10px] transition-all active:scale-95 ${
+                active ? 'text-[#581C32] font-bold' : 'text-[#6E6660] font-medium'
               }`}
             >
-              {active && (
-                <span className="absolute top-0 inset-x-4 h-0.5 bg-[#581C32] rounded-b" />
-              )}
-              <span className="relative">
-                <Icon className="w-5 h-5" strokeWidth={active ? 2.3 : 1.8} />
+              <span
+                className={`relative inline-flex items-center justify-center px-3.5 py-1 rounded-full transition-colors ${
+                  active ? 'bg-[#581C32]/12 text-[#581C32]' : 'bg-transparent'
+                }`}
+              >
+                <Icon className="w-[19px] h-[19px]" strokeWidth={active ? 2.3 : 1.8} />
                 {typeof item.badge === 'number' && item.badge > 0 && (
-                  <span className="absolute -top-1.5 -end-2.5 min-w-[16px] h-4 px-1 rounded-full bg-[#581C32] text-white text-[10px] font-bold flex items-center justify-center tabular-nums">
+                  <span className="absolute -top-0.5 end-1 min-w-[16px] h-4 px-1 rounded-full bg-[#D92D39] text-white text-[9px] font-bold flex items-center justify-center tabular-nums shadow-xs">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 )}
               </span>
-              <span className="truncate max-w-full px-1">{item.label}</span>
+              <span className="truncate max-w-full px-1 leading-none">{item.label}</span>
             </Link>
           );
         })}

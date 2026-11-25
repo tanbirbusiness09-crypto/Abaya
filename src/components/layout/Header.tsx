@@ -42,13 +42,19 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [promoVisible, setPromoVisible] = useState(true);
 
+  const [mobileSearchFocused, setMobileSearchFocused] = useState(false);
+
   const searchRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRef = useRef<HTMLDivElement>(null);
   const megaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchFocused(false);
+      }
+      if (mobileSearchRef.current && !mobileSearchRef.current.contains(e.target as Node)) {
+        setMobileSearchFocused(false);
       }
       if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
         setMegaMenuOpen(false);
@@ -68,6 +74,7 @@ export function Header() {
     if (!cleaned) return;
     addRecentSearch(cleaned);
     setSearchFocused(false);
+    setMobileSearchFocused(false);
     navigate(`/search?q=${encodeURIComponent(cleaned)}`);
   };
 
@@ -75,6 +82,7 @@ export function Header() {
     setSearchTerm(term);
     addRecentSearch(term);
     setSearchFocused(false);
+    setMobileSearchFocused(false);
     navigate(`/search?q=${encodeURIComponent(term)}`);
   };
 
@@ -97,12 +105,204 @@ export function Header() {
         </div>
       )}
 
-      {/* Main Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-[#EAE5DF] shadow-[0_1px_4px_rgba(0,0,0,0.03)]">
-        <div className="max-w-[1440px] mx-auto px-3 sm:px-6">
+      {/* Mobile Android-App Scrollable Top Identity & Delivery Bar (scrolls away cleanly) */}
+      <div className="md:hidden bg-white border-b border-[#EAE5DF]/70">
+        <div className="h-11 px-3 flex items-center justify-between gap-2">
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 whitespace-nowrap shrink-0"
+            aria-label="LAYANA | ليانا"
+          >
+            <span className="font-editorial text-lg font-bold tracking-wider text-[#581C32]">
+              LAYANA
+            </span>
+            <span className="text-[#C5A572] font-light text-base">|</span>
+            <span className="text-base font-extrabold text-[#3D1023] tracking-tight">
+              ليانا
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => setCityModalOpen(true)}
+              aria-label={t.selectCity}
+              className="h-7 px-2 rounded-full bg-[#F8F4ED] border border-[#EAE5DF] inline-flex items-center gap-1 text-[11px] font-semibold text-[#202020] active:scale-95 transition-transform"
+            >
+              <MapPin className="w-3 h-3 text-[#581C32] shrink-0" />
+              <span className="max-w-[78px] truncate">{l(city.name)}</span>
+              <ChevronDown className="w-3 h-3 text-[#777777]" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+              aria-label={lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
+              className="h-7 px-2 rounded-full bg-[#F8F4ED] border border-[#EAE5DF] text-[11px] font-bold text-[#581C32] inline-flex items-center gap-1 active:scale-95 transition-transform whitespace-nowrap"
+            >
+              <Globe className="w-3 h-3" />
+              <span>{lang === 'ar' ? 'EN' : 'عربي'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Sticky Header (Slim 50px Android Search Bar on Mobile + Full Noon-Style Bar on Desktop) */}
+      <header className="sticky top-0 z-50 bg-white/95 md:bg-white backdrop-blur-md md:backdrop-blur-none border-b border-[#EAE5DF] shadow-[0_2px_8px_rgba(32,32,32,0.04)] md:shadow-[0_1px_4px_rgba(0,0,0,0.03)]">
+        {/* Mobile Slim Sticky Android App Search Row (50px tall) */}
+        <div ref={mobileSearchRef} className="md:hidden relative px-3 h-[50px] flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label={lang === 'ar' ? 'فتح القائمة' : 'Open navigation menu'}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-[#202020] hover:bg-[#F8F4ED] active:scale-95 transition-transform shrink-0"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+
+          <form onSubmit={handleSearchSubmit} className="relative flex-1 flex items-center min-w-0">
+            <Search className="w-4 h-4 text-[#777777] absolute start-3 pointer-events-none" />
+            <input
+              type="search"
+              value={searchTerm}
+              onFocus={() => setMobileSearchFocused(true)}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={lang === 'ar' ? 'ابحثي عن عبايات، كتان، طرح...' : 'Search abayas, linen, shaylas...'}
+              aria-label={t.searchPlaceholder}
+              className="w-full h-9 ps-9 pe-8 rounded-full bg-[#F6F1E9] border border-[#EAE5DF] focus:bg-white focus:border-[#581C32] text-xs text-[#202020] placeholder:text-[#777777] transition-colors"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                aria-label={t.clear}
+                className="absolute end-2.5 p-0.5 text-[#777777]"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </form>
+
+          <button
+            type="button"
+            onClick={() => setCartDrawerOpen(true)}
+            aria-label={`${t.cart} (${cartTotals.itemCount})`}
+            className="relative w-9 h-9 rounded-full bg-[#F8F4ED] text-[#581C32] flex items-center justify-center active:scale-95 transition-transform shrink-0"
+          >
+            <ShoppingBag className="w-[18px] h-[18px]" />
+            {cartTotals.itemCount > 0 && (
+              <span className="absolute -top-0.5 -end-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#D92D39] text-white text-[9px] font-bold flex items-center justify-center tabular-nums">
+                {cartTotals.itemCount}
+              </span>
+            )}
+          </button>
+
+          {/* Mobile Live Search Suggestions Sheet */}
+          {mobileSearchFocused && (
+            <div className="absolute top-full inset-x-0 bg-white border-b border-[#EAE5DF] shadow-2xl max-h-[70vh] overflow-y-auto z-50">
+              {searchTerm.trim() === '' ? (
+                <div className="p-3.5 space-y-3.5">
+                  {recentSearches.length > 0 && (
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#777777]">
+                          <Clock className="w-3.5 h-3.5" />
+                          {t.recentSearches}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearRecentSearches}
+                          className="text-[11px] font-semibold text-[#581C32]"
+                        >
+                          {t.clear}
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {recentSearches.map((q) => (
+                          <button
+                            key={q}
+                            type="button"
+                            onClick={() => triggerQuickSearch(q)}
+                            className="px-2.5 py-1 rounded-full bg-[#F8F4ED] text-xs font-medium text-[#202020]"
+                          >
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#777777] mb-2">
+                      <TrendingUp className="w-3.5 h-3.5 text-[#581C32]" />
+                      {t.popularSearches}
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {POPULAR_SEARCHES[lang].map((term) => (
+                        <button
+                          key={term}
+                          type="button"
+                          onClick={() => triggerQuickSearch(term)}
+                          className="px-2.5 py-1 rounded-full border border-[#EAE5DF] text-xs font-medium text-[#202020]"
+                        >
+                          {term}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="divide-y divide-[#EAE5DF]">
+                  {suggestions.products.length === 0 ? (
+                    <p className="text-xs text-[#777777] py-6 text-center">{t.noSearchMatches}</p>
+                  ) : (
+                    <div className="p-2.5 space-y-1">
+                      {suggestions.products.slice(0, 5).map((prod) => (
+                        <Link
+                          key={prod.id}
+                          to={`/product/${prod.slug}`}
+                          onClick={() => {
+                            addRecentSearch(searchTerm);
+                            setMobileSearchFocused(false);
+                          }}
+                          className="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-[#F8F4ED]"
+                        >
+                          <div className="w-10 h-12 rounded-lg overflow-hidden bg-[#F8F4ED] shrink-0">
+                            <SmartImage
+                              src={prod.images[0]}
+                              alt={l(prod.name)}
+                              className="w-full h-full object-cover object-top"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="clamp-1 text-xs font-semibold text-[#202020]">{l(prod.name)}</p>
+                            <p className="text-[11px] font-bold text-[#581C32] tabular-nums mt-0.5">
+                              {formatPrice(prod.price, lang)}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                  <div className="p-2.5 bg-[#F8F4ED]/60 text-center">
+                    <button
+                      type="button"
+                      onClick={handleSearchSubmit}
+                      className="text-xs font-bold text-[#581C32]"
+                    >
+                      {t.viewAllResults} ({searchTerm})
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop & Tablet Header Row */}
+        <div className="hidden md:block max-w-[1440px] mx-auto px-6">
           {/* Row 1: Brand, City, Search, Actions */}
-          <div className="h-14 md:h-16 flex items-center justify-between gap-2.5 md:gap-5">
-            {/* Mobile Menu + Brand Logo */}
+          <div className="h-16 flex items-center justify-between gap-5">
+            {/* Tablet Menu + Brand Logo */}
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
@@ -118,11 +318,11 @@ export function Header() {
                 className="flex items-center gap-1.5 whitespace-nowrap shrink-0 group"
                 aria-label="LAYANA | ليانا"
               >
-                <span className="font-editorial text-xl sm:text-2xl font-bold tracking-wider text-[#581C32]">
+                <span className="font-editorial text-2xl font-bold tracking-wider text-[#581C32]">
                   LAYANA
                 </span>
                 <span className="text-[#C5A572] font-light text-lg">|</span>
-                <span className="text-lg sm:text-xl font-extrabold text-[#3D1023] tracking-tight">
+                <span className="text-xl font-extrabold text-[#3D1023] tracking-tight">
                   ليانا
                 </span>
               </Link>
@@ -366,29 +566,6 @@ export function Header() {
             </div>
           </div>
 
-          {/* Mobile compact search bar & city selector */}
-          <div className="md:hidden pb-2.5 flex items-center gap-2">
-            <form onSubmit={handleSearchSubmit} className="relative flex-1 flex items-center">
-              <Search className="w-4 h-4 text-[#777777] absolute start-3 pointer-events-none" />
-              <input
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={t.searchPlaceholder}
-                aria-label={t.searchPlaceholder}
-                className="w-full h-9 ps-9 pe-3 rounded-lg bg-[#F8F4ED] border border-[#EAE5DF] text-xs text-[#202020] placeholder:text-[#777777]"
-              />
-            </form>
-            <button
-              type="button"
-              onClick={() => setCityModalOpen(true)}
-              aria-label={t.selectCity}
-              className="h-9 px-2.5 rounded-lg bg-[#F8F4ED] border border-[#EAE5DF] inline-flex items-center gap-1 text-[11px] font-semibold text-[#202020] shrink-0"
-            >
-              <MapPin className="w-3.5 h-3.5 text-[#581C32]" />
-              <span>{l(city.name)}</span>
-            </button>
-          </div>
         </div>
 
         {/* Row 2: Secondary Horizontal Category Navigation + Mega Menu (Desktop) */}

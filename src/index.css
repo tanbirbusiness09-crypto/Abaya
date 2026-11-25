@@ -53,6 +53,7 @@
   select,
   textarea {
     outline-color: #581C32;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -64,6 +65,23 @@
   text-wrap: balance;
 }
 
+/* Guaranteed multi-line text truncation (immune to display:block conflicts) */
+.clamp-1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+
 /* Subtle horizontal scroller without harsh scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -71,48 +89,81 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Safe area bottom padding for mobile native app bar */
 .pb-safe {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  padding-bottom: max(0.35rem, env(safe-area-inset-bottom));
 }
 
 /* Swiper custom pagination polish */
+.layana-hero-swiper .swiper-pagination {
+  bottom: 12px !important;
+}
+
 .layana-hero-swiper .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.55);
+  width: 7px;
+  height: 7px;
+  background: rgba(197, 165, 114, 0.45);
   opacity: 1;
   transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease;
   border-radius: 9999px;
 }
 
 .layana-hero-swiper .swiper-pagination-bullet-active {
-  width: 24px;
+  width: 22px;
   background: #C5A572;
+}
+
+.layana-mobile-hero-swiper .swiper-pagination {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.layana-mobile-hero-swiper .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  margin: 0 !important;
+  background: #D6CCC2;
+  opacity: 1;
+  border-radius: 9999px;
+  transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease;
+}
+
+.layana-mobile-hero-swiper .swiper-pagination-bullet-active {
+  width: 20px;
+  background: #581C32;
 }
 
 .layana-hero-swiper .swiper-button-prev,
 .layana-hero-swiper .swiper-button-next {
   color: #202020;
-  background: rgba(255, 255, 255, 0.92);
-  width: 40px;
-  height: 40px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #EAE5DF;
+  width: 36px;
+  height: 36px;
   border-radius: 9999px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 160ms ease, background-color 160ms ease;
+  box-shadow: 0 4px 12px rgba(32, 32, 32, 0.08);
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
 .layana-hero-swiper .swiper-button-prev:hover,
 .layana-hero-swiper .swiper-button-next:hover {
-  background: #FFFFFF;
+  background: #581C32;
+  color: #FFFFFF;
+  border-color: #581C32;
   transform: scale(1.04);
 }
 
 .layana-hero-swiper .swiper-button-prev::after,
 .layana-hero-swiper .swiper-button-next::after {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 

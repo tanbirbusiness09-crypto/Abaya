@@ -40,6 +40,8 @@ export interface HeroSlide {
   eyebrow: LocalizedText;
   title: LocalizedText;
   subtitle: LocalizedText;
+  offerNote: LocalizedText;
+  featuredPiece: LocalizedText;
   cta: LocalizedText;
   link: string;
   image: string;
@@ -345,13 +347,15 @@ export const PRICE_SHORTCUTS: PriceShortcut[] = [
 export const HERO_SLIDES: HeroSlide[] = [
   {
     id: 'timeless-elegance',
-    eyebrow: { ar: 'مجموعة الموسم الجديدة', en: 'NEW SEASON EDITION' },
+    eyebrow: { ar: 'إصدار الموسم الفاخر', en: 'Signature Season Edit' },
     title: { ar: 'اكتشفي الأناقة الخالدة', en: 'Discover Timeless Elegance' },
     subtitle: {
-      ar: 'عبايات حرير كريب بتطريز ذهبي متقن مصممة للمرأة السعودية العصرية — شامل الضريبة مع توصيل سريع لجميع مناطق المملكة.',
-      en: 'Silk-crepe abayas with antique gold embroidery tailored for contemporary Saudi elegance — VAT-inclusive with nationwide delivery.',
+      ar: 'عبايات حرير كريب وبشت مطرز بخيوط ذهبية متقنة مصممة لإطلالة سعودية راقية في كل وقت.',
+      en: 'Silk-crepe abayas and antique gold-embroidered bishts crafted for contemporary Saudi grace.',
     },
-    cta: { ar: 'تسوّقي التشكيلة الآن', en: 'Shop the Collection' },
+    offerNote: { ar: 'تبدأ من 449 ر.س · شامل الضريبة', en: 'From SAR 449 · VAT Included' },
+    featuredPiece: { ar: 'عباية قصر العنابي · 749 ر.س', en: 'Qasr Burgundy Velvet · SAR 749' },
+    cta: { ar: 'تسوّقي التشكيلة', en: 'Shop Collection' },
     link: '/category/luxury-abayas',
     image: IMAGES.heroBurgundy,
     mobileImage: IMAGES.burgundyVelvet,
@@ -360,13 +364,15 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: 'everyday-linen',
-    eyebrow: { ar: 'الأناقة اليومية والكتان الطبيعي', en: 'EVERYDAY REFINEMENT' },
-    title: { ar: 'مجموعة الكتان والعمل اليومي', en: 'Everyday Linen Elegance' },
+    eyebrow: { ar: 'مجموعة الكتان والدوام', en: 'Everyday Linen Edit' },
+    title: { ar: 'راحة الكتان الطبيعي بألوان هادئة', en: 'Effortless Desert Linen' },
     subtitle: {
-      ar: 'أقمشة باردة وانسيابية بألوان الصحراء الهادئة، مثالية للدوام والمشاوير الصباحية والسفر.',
-      en: 'Breathable natural linen drapes in soft desert neutrals, tailored for office days, mornings, and travel.',
+      ar: 'أقمشة باردة وانسيابية مثالية للعمل والمشاوير الصباحية والسفر بخياطة سعودية متقنة.',
+      en: 'Breathable natural linen silhouettes tailored for Riyadh workdays, errands, and effortless travel.',
     },
-    cta: { ar: 'اكتشفي عبايات الكتان', en: 'Explore Linen Abayas' },
+    offerNote: { ar: 'خصم تجريبي حتى 20% · توصيل سريع', en: 'Up to 20% Off · Express KSA' },
+    featuredPiece: { ar: 'عباية صحارى كتان · 269 ر.س', en: 'Sahara Sand Linen · SAR 269' },
+    cta: { ar: 'اكتشفي الكتان', en: 'Explore Linen' },
     link: '/category/linen-abayas',
     image: IMAGES.heroLinen,
     mobileImage: IMAGES.sandBeigeLinen,
@@ -375,13 +381,15 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: 'evening-occasion',
-    eyebrow: { ar: 'إصدار المناسبات والسهرات', en: 'EVENING & OCCASION COUTURE' },
-    title: { ar: 'تألّقي في كل مناسبة', en: 'Premium Occasion Collection' },
+    eyebrow: { ar: 'إصدار العيد والمناسبات', en: 'Evening & Eid Couture' },
+    title: { ar: 'حضور ملكي في كل مناسبة', en: 'Refined Occasion Couture' },
     subtitle: {
-      ar: 'أورجانزا فاخرة وشك يدوي رقيق يمنحك حضوراً ملكياً في أمسيات العيد والزفاف والمناسبات الخاصة.',
-      en: 'Sculpted organza and subtle hand-stitched metallic trim crafted for Eid gatherings, weddings, and soirées.',
+      ar: 'أورجانزا فاخرة وتفاصيل شك يدوي رقيق تمنحك فخامة استثنائية في أمسيات العيد والزفاف.',
+      en: 'Sculpted organza and subtle hand-stitched metallic trim tailored for Eid gatherings and weddings.',
     },
-    cta: { ar: 'تسوّقي عبايات المناسبات', en: 'Shop Occasion Wear' },
+    offerNote: { ar: 'قسّطي على 4 دفعات بدون فوائد', en: '4 Interest-Free Payments' },
+    featuredPiece: { ar: 'عباية العلا المطرزة · 689 ر.س', en: 'Al-Ula Gold Bisht · SAR 689' },
+    cta: { ar: 'تسوّقي المناسبات', en: 'Shop Occasions' },
     link: '/category/occasion-abayas',
     image: IMAGES.heroEvening,
     mobileImage: IMAGES.blackGoldEmbroidery,

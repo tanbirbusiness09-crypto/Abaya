@@ -26,10 +26,10 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           prevEl: `.${prevClass}`,
           nextEl: `.${nextClass}`,
         }}
-        spaceBetween={12}
-        slidesPerView={2.15}
+        spaceBetween={10}
+        slidesPerView={2.08}
         breakpoints={{
-          480: { slidesPerView: 2.4, spaceBetween: 12 },
+          480: { slidesPerView: 2.35, spaceBetween: 12 },
           640: { slidesPerView: 3.2, spaceBetween: 14 },
           1024: { slidesPerView: 5, spaceBetween: 16 },
           1280: { slidesPerView: 6, spaceBetween: 16 },

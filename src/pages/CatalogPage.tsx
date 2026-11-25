@@ -502,12 +502,12 @@ export function CatalogPage({ mode }: CatalogPageProps) {
           )}
         </div>
 
-        {/* Mobile Sticky Filter & Sort Toolbar */}
-        <div className="lg:hidden grid grid-cols-2 gap-2 mb-4">
+        {/* Mobile Android-App Filter & Sort Bar */}
+        <div className="lg:hidden grid grid-cols-2 gap-2 mb-3.5">
           <button
             type="button"
             onClick={() => setMobileFilterOpen(true)}
-            className="h-10 px-3 rounded-lg bg-white border border-[#EAE5DF] flex items-center justify-center gap-2 text-xs font-bold text-[#202020]"
+            className="h-10 px-3 rounded-xl bg-white border border-[#EAE5DF] shadow-[0_1px_2px_rgba(32,32,32,0.03)] active:scale-[0.98] transition-transform flex items-center justify-center gap-2 text-xs font-bold text-[#202020]"
           >
             <SlidersHorizontal className="w-4 h-4 text-[#581C32]" />
             <span>
@@ -518,7 +518,7 @@ export function CatalogPage({ mode }: CatalogPageProps) {
           <button
             type="button"
             onClick={() => setMobileSortOpen(true)}
-            className="h-10 px-3 rounded-lg bg-white border border-[#EAE5DF] flex items-center justify-center gap-2 text-xs font-bold text-[#202020]"
+            className="h-10 px-3 rounded-xl bg-white border border-[#EAE5DF] shadow-[0_1px_2px_rgba(32,32,32,0.03)] active:scale-[0.98] transition-transform flex items-center justify-center gap-2 text-xs font-bold text-[#202020]"
           >
             <ArrowUpDown className="w-4 h-4 text-[#581C32]" />
             <span className="truncate">{t.sortOptions[sortBy]}</span>
@@ -610,7 +610,7 @@ export function CatalogPage({ mode }: CatalogPageProps) {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-2.5 sm:gap-4">
                   {visibleProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
@@ -636,23 +636,24 @@ export function CatalogPage({ mode }: CatalogPageProps) {
       {/* Mobile Filter Bottom Sheet */}
       {mobileFilterOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-[80] bg-black/50 flex flex-col justify-end"
+          className="lg:hidden fixed inset-0 z-[80] bg-black/50 backdrop-blur-[1px] flex flex-col justify-end"
           role="dialog"
           aria-modal="true"
           aria-label={t.filters.title}
           onClick={() => setMobileFilterOpen(false)}
         >
           <div
-            className="bg-white rounded-t-2xl max-h-[85vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-t-3xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-4 border-b border-[#EAE5DF] flex items-center justify-between">
+            <div className="w-10 h-1 rounded-full bg-[#D8D0C7] mx-auto mt-2.5 mb-0.5 shrink-0" />
+            <div className="px-5 py-3 border-b border-[#EAE5DF] flex items-center justify-between">
               <h2 className="text-base font-bold text-[#202020]">{t.filters.title}</h2>
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(false)}
                 aria-label="Close filters"
-                className="p-1 text-[#777777]"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#777777] hover:bg-[#F8F4ED]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -662,14 +663,14 @@ export function CatalogPage({ mode }: CatalogPageProps) {
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="h-11 rounded-lg border border-[#EAE5DF] bg-white text-xs font-bold text-[#202020]"
+                className="h-11 rounded-xl border border-[#EAE5DF] bg-white text-xs font-bold text-[#202020] active:scale-[0.98] transition-transform"
               >
                 {t.filters.clearAll}
               </button>
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(false)}
-                className="h-11 rounded-lg bg-[#581C32] text-white text-xs font-bold"
+                className="h-11 rounded-xl bg-[#581C32] text-white text-xs font-bold active:scale-[0.98] transition-transform"
               >
                 {t.filters.apply} ({products.length})
               </button>
@@ -681,23 +682,24 @@ export function CatalogPage({ mode }: CatalogPageProps) {
       {/* Mobile Sort Bottom Sheet */}
       {mobileSortOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-[80] bg-black/50 flex flex-col justify-end"
+          className="lg:hidden fixed inset-0 z-[80] bg-black/50 backdrop-blur-[1px] flex flex-col justify-end"
           role="dialog"
           aria-modal="true"
           aria-label={t.filters.sortBy}
           onClick={() => setMobileSortOpen(false)}
         >
           <div
-            className="bg-white rounded-t-2xl p-5 space-y-2 pb-safe"
+            className="bg-white rounded-t-3xl px-5 pt-2.5 pb-5 space-y-1.5 pb-safe shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-2 border-b border-[#EAE5DF]">
+            <div className="w-10 h-1 rounded-full bg-[#D8D0C7] mx-auto mb-2" />
+            <div className="flex items-center justify-between pb-2.5 border-b border-[#EAE5DF]">
               <h2 className="text-base font-bold text-[#202020]">{t.filters.sortBy}</h2>
               <button
                 type="button"
                 onClick={() => setMobileSortOpen(false)}
                 aria-label="Close sort sheet"
-                className="p-1 text-[#777777]"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#777777] hover:bg-[#F8F4ED]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -710,7 +712,7 @@ export function CatalogPage({ mode }: CatalogPageProps) {
                   setSortBy(key);
                   setMobileSortOpen(false);
                 }}
-                className={`w-full text-start px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full text-start px-3.5 py-3 rounded-xl text-sm font-medium transition-colors ${
                   sortBy === key
                     ? 'bg-[#581C32] text-white font-bold'
                     : 'text-[#202020] hover:bg-[#F8F4ED]'
